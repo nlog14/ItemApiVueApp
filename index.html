@@ -8,7 +8,7 @@
     <title>Document</title>
     <!-- CSS -->
     <script src="./src/main.js" defer></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js" defer></script>
+
     <link rel="stylesheet" href="./src/assets/styles.css" />
     <!-- Bootstrap 4-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
@@ -19,13 +19,76 @@
 </head>
 
 <body>
-    <div id="app">
-        <h2>{{headline}}</h2>
-         <p>{{ greeting }}</p>
+    <div id="app" class="container p-3">
+        <div class="row">
+            <div class="col-4">
+                <form class="border p-3">
+                    <h5>Add a new item</h5>
+                    <div class="form-group">
+                        <label>Name:</label>
+                        <input type="text" class="form-control" v-model="item.name">
+                    </div>
+                    <div class="form-group">
+                        <label>Quality:</label>
+                        <input type="number" class="form-control" v-model="item.productQuality">
+                    </div>
+                    <div class="form-group">
+                        <label>Quantity:</label>
+                        <input type="number" class="form-control" v-model="item.quantity">
+                    </div>
+                    <div class="row w-100 justify-content-between m-auto">
+                        <button type="button" @click="addItem" class="btn btn-sm btn-success"><i class="bi bi-plus-square"></i>
+                             Add item</button>
+                        <button type="button" @click="updateItem" class="btn btn-sm btn-warning "><i class="bi bi-arrow-repeat"></i>
+                             Update item</button>    
+                    </div>
+                    
+                </form> 
+            </div>
+            <div class="d-flex flex-column justify-content-start align-items-left  p-3">     
+                <button type="button" @click="getAllItems" class="btn btn-sm btn-danger mt-2">
+                    Refresh</button>   
+                <div class="form-group">
+                    <label>Item Id:</label>
+                    <input class="form-control" type="number" min="1" v-model="itemId" style="width: 5rem;">  
+                </div>       
+                    <button type="button" @click="getItemById" class="btn btn-sm btn-success"><i class="bi bi-search"></i>
+                         Get item</button>
+                    <button type="button" @click="deleteItemById" class="btn btn-sm btn-danger mt-2"><i class="bi bi-trash"></i>
+                         Delete item</button>   
+                    </hr>
+                <div class="form-group">
+                    <h5>Search by name:</h5>
+                    <label>Item Name:</label>
+                    <input class="form-control" type="text" v-model="itemName" >  
+                    <button type="button" @click="getItemByName" class="btn btn-sm btn-danger mt-2"><i class="bi bi-search"></i>
+                        Search</button>   
+                </div>  
+            </div>
+        </div>
+
+        
+        <div class="row p-3" v-show="message != null" >
+            <h5 id="message" class="">{{message}}</h5>
+        </div>
+        <div class="row p-3">
+            <table class="table">
+                <tr>
+                    <th>Id</th><th>Name</th><th>Quality</th><th>Quantity</th>
+                </tr>
+                <tr v-for="item, index in items" @click="selectItem(index)" style="cursor: pointer;">
+                    <td>{{item.id}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.productQuality}}</td>
+                    <td>{{item.quantity}}</td>
+                </tr>
+            </table>
+        </div>
+
     </div>
 
     <!-- Import scripts -->
-    
+    <script src="https://unpkg.com/axios/dist/axios.min.js" ==></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js" integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2" crossorigin="anonymous"></script>
